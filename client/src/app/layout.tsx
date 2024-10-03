@@ -7,24 +7,13 @@ import Header from "@/components/Header";
 import AuthModal from "@/components/auth/AuthModal";
 
 import ContextProvider from "@/context/ContextProvider";
+import { BASE_URL, OPENGRAPH_SETTINGS, ROBOTS_SETTINGS } from "@/config";
 
 export const metadata = {
   title: "chessu",
   description: "Play Chess online.",
-  openGraph: {
-    title: "chessu",
-    description: "Play Chess online.",
-    url: "https://ches.su",
-    siteName: "chessu",
-    locale: "en_US",
-    type: "website"
-  },
-  robots: {
-    index: true,
-    follow: false,
-    nocache: true,
-    noarchive: true
-  },
+  openGraph: OPENGRAPH_SETTINGS,
+  robots: ROBOTS_SETTINGS,
   icons: {
     icon: [
       { type: "image/png", sizes: "32x32", url: "/favicon-32x32.png" },
@@ -33,7 +22,7 @@ export const metadata = {
     apple: { url: "/apple-touch-icon.png", sizes: "180x180" }
   },
   manifest: "/site.webmanifest",
-  metadataBase: new URL(process.env.VERCEL ? "https://ches.su" : "http://localhost:3000")
+  metadataBase: new URL(process.env.VERCEL ? BASE_URL : "http://localhost:3000")
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

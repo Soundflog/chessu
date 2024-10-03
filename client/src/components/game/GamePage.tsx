@@ -27,7 +27,7 @@ import { io } from "socket.io-client";
 
 import { lobbyReducer, squareReducer } from "./reducers";
 import { initSocket } from "./socketEvents";
-import { syncPgn, syncSide } from "./utils";
+import { syncPgn, syncSide, lobbyActualGame } from "./utils";
 
 const socket = io(API_URL, { withCredentials: true, autoConnect: false });
 
@@ -212,18 +212,7 @@ export default function GamePage({ initialLobby }: { initialLobby: Game }) {
         updateTurnTitle();
         let kingSquare = undefined;
         if (lobby.actualGame.inCheck()) {
-          const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
-            const squareIndex = row.findIndex(
-              (square) => square && square.type === "k" && square.color === lobby.actualGame.turn()
-            );
-            return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
-          }, "");
-          kingSquare = {
-            [kingPos]: {
-              background: "radial-gradient(red, rgba(255,0,0,.4), transparent 70%)",
-              borderRadius: "50%"
-            }
-          };
+          kingSquare = lobbyActualGame(lobby)
         }
         updateCustomSquares({
           lastMove: {

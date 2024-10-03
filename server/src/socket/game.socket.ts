@@ -228,12 +228,11 @@ export async function joinAsPlayer(this: Socket) {
     if (!game) return;
     const user = game.observers?.find((o) => o.id === this.request.session.user.id);
     if (!game.white) {
-        const sessionUser = {
+        game.white = {
             id: this.request.session.user.id,
             name: this.request.session.user.name,
             connected: true
         };
-        game.white = sessionUser;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,
@@ -241,12 +240,11 @@ export async function joinAsPlayer(this: Socket) {
         });
         game.startedAt = Date.now();
     } else if (!game.black) {
-        const sessionUser = {
+        game.black = {
             id: this.request.session.user.id,
             name: this.request.session.user.name,
             connected: true
         };
-        game.black = sessionUser;
         if (user) game.observers?.splice(game.observers?.indexOf(user), 1);
         io.to(game.code as string).emit("userJoinedAsPlayer", {
             name: this.request.session.user.name,

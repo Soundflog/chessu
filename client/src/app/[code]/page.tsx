@@ -1,6 +1,7 @@
 import GameAuthWrapper from "@/components/game/GameAuthWrapper";
 import { fetchActiveGame } from "@/lib/game";
 import { notFound } from "next/navigation";
+import { OPENGRAPH_SETTINGS } from "@/config";
 
 export async function generateMetadata({ params }: { params: { code: string } }) {
   const game = await fetchActiveGame(params.code);
@@ -18,11 +19,11 @@ export async function generateMetadata({ params }: { params: { code: string } })
   return {
     description: `Play or watch a game with ${game.host?.name}`,
     openGraph: {
-      title: "chessu",
+      title: OPENGRAPH_SETTINGS.title,
       description: `Play or watch a game with ${game.host?.name}`,
-      url: `https://ches.su/${game.code}`,
-      siteName: "chessu",
-      locale: "en_US",
+      url: OPENGRAPH_SETTINGS.url + `/${game.code}`,
+      siteName: OPENGRAPH_SETTINGS.site_name,
+      locale: OPENGRAPH_SETTINGS.locale,
       type: "website"
     },
     robots: {

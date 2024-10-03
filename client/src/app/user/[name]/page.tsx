@@ -1,6 +1,7 @@
 import CopyLink from "@/components/user/CopyLink";
 import { fetchProfileData } from "@/lib/user";
 import { notFound } from "next/navigation";
+import { OPENGRAPH_SETTINGS } from "@/config";
 
 export async function generateMetadata({ params }: { params: { name: string } }) {
   const data = await fetchProfileData(params.name);
@@ -21,9 +22,9 @@ export async function generateMetadata({ params }: { params: { name: string } })
     openGraph: {
       title: `${data.name} | chessu`,
       description: `${data.name}'s profile on chessu`,
-      url: `https://ches.su/user/${data.name}`,
-      siteName: "chessu",
-      locale: "en_US",
+      url: OPENGRAPH_SETTINGS.url + `/user/${data.name}`,
+      siteName: OPENGRAPH_SETTINGS.site_name,
+      locale: OPENGRAPH_SETTINGS.locale,
       type: "website"
     },
     robots: {

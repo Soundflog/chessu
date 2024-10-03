@@ -26,19 +26,7 @@ export const syncPgn = (
         };
     }
     if (lobby.actualGame.inCheck()) {
-        const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
-            const squareIndex = row.findIndex(
-                (square) =>
-                    square && square.type === "k" && square.color === lobby.actualGame.turn()
-            );
-            return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
-        }, "");
-        kingSquare = {
-            [kingPos]: {
-                background: "radial-gradient(red, rgba(255,0,0,.4), transparent 70%)",
-                borderRadius: "50%"
-            }
-        };
+        kingSquare = lobbyActualGame(lobby);
     }
     actions.updateCustomSquares({
         lastMove: lastMoveSquares,
@@ -61,3 +49,19 @@ export const syncSide = (
         actions.updateLobby({ type: "setSide", payload: "s" });
     }
 };
+
+export const lobbyActualGame = (lobby: Lobby) => {
+    const kingPos = lobby.actualGame.board().reduce((acc, row, index) => {
+        const squareIndex = row.findIndex(
+            (square) =>
+                square && square.type === "k" && square.color === lobby.actualGame.turn()
+        );
+        return squareIndex >= 0 ? `${String.fromCharCode(squareIndex + 97)}${8 - index}` : acc;
+    }, "");
+    return {
+        [kingPos]: {
+            background: "radial-gradient(red, rgba(255,0,0,.4), transparent 70%)",
+            borderRadius: "50%"
+        }
+    };
+}

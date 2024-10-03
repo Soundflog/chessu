@@ -2,12 +2,14 @@
 
 import { IconCopy } from "@tabler/icons-react";
 import { useState } from "react";
+import { BASE_URL } from "@/config";
 
 export default function CopyLink({ name }: { name: string }) {
   const [copiedLink, setCopiedLink] = useState(false);
 
   function copyLink() {
-    const text = `https://ches.su/user/${name}`;
+    // eslint-disable-next-line no-undef
+    const text = BASE_URL +`/user/${name}`;
 
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(text);
